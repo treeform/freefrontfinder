@@ -1,7 +1,8 @@
-import os, json, strformat, strutils, algorithm
+import os, json, strformat, strutils, algorithm, tables
 
 var dbJson = newJArray()
 var dbCsv: seq[string]
+var dbCsvDup: Table[string, bool]
 
 proc value(line: string): string =
   parseJson(line.split(":", 1)[1]).getStr()
@@ -19,9 +20,11 @@ proc addFont(name, fontPostScriptName, style: string, weight: int, url, license:
       "license": license,
       "url": url
     }
-    entryCsv = &"{fontPostScriptName},{url},{license}"
+    entryCsv = &"{fontPostScriptName},\"{url}\",{license}"
   dbJson.add(entry)
-  dbCsv.add(entryCsv)
+  if fontPostScriptName notin dbCsvDup:
+    dbCsv.add(entryCsv)
+    dbCsvDup[fontPostScriptName] = true
   echo fontPostScriptName
 
 proc processDir(dir: string) =
