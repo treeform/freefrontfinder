@@ -2,7 +2,7 @@
 
 This repo contains a mapping of font names to font urls.
 
-There are two json and csv files full entries you can scan for fonts to
+There are two json and csv files full of entries you can scan for fonts and
 find their URLs so that you can download them and use them.
 
 ## font.json
@@ -13,10 +13,6 @@ want to get the actual .ttf you can download the json file with:
 ```
 https://raw.githubusercontent.com/treeform/freefrontfinder/master/fonts.json
 ```
-
-And Scan for your font to find the URL. After you find the URL you can download
-the font file itself.
-
 
 ```json
 {
@@ -41,6 +37,3 @@ and weight information so it might be easier to use csv file:
 ```
 Tinos-Italic,https://github.com/google/fonts/blob/master/ofl/tinos/Tinos-Italic.ttf?raw=true,APACHE2
 ```
-
-After you find the entry that best matches your font, you can use the url to
-download it and use it.
