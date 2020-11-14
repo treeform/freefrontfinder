@@ -1,7 +1,7 @@
-import os, json, strformat, strutils
+import os, json, strformat, strutils, algorithm
 
 var dbJson = newJArray()
-var dbCsv = ""
+var dbCsv: seq[string]
 
 proc value(line: string): string =
   parseJson(line.split(":", 1)[1]).getStr()
@@ -27,15 +27,12 @@ proc addFont(name, fontPostScriptName, style: string, weight: int, url, license:
 proc processDir(dir: string) =
   for kind, path in walkDir(dir):
     if kind == pcDir:
-      #echo path
       let metaDataPath = path / "METADATA.pb"
       if fileExists(metaDataPath):
         let meta = readFile(metaDataPath)
         var name, fontPostScriptName, style, fileName, license: string
         var weight: int
         for line in meta.split("\n"):
-          #echo line
-
           if line.startsWith("  name:"):
             name = line.value()
           if line.startsWith("  post_script_name:"):
@@ -55,9 +52,13 @@ proc processDir(dir: string) =
               url = &"https://{repo}/blob/master/ofl/{folder}/{fileName}?raw=true"
             addFont(name, fontPostScriptName, style, weight, url, license)
 
+# Do google fonts
+
 processDir("/p/googlefonts/ofl")
 processDir("/p/googlefonts/ufl")
 processDir("/p/googlefonts/apache")
+
+# Do Material Icons
 
 addFont(
   name = "Material Icons",
@@ -68,5 +69,8 @@ addFont(
   license = "APACHE2"
 )
 
+# Write the database
+
 writeFile("fonts.json", $dbJson)
-writeFile("fonts.csv", $dbCsv)
+dbCsv.sort()
+writeFile("fonts.csv", dbCsv.join("\n")
