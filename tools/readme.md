@@ -1,3 +1,3 @@
-# Generators
+# Generate
 
-Used to generate the fonts.json. You don't need to run this code.
+Used to generate the fonts.json and fonts.csv. You don't need to run this code.

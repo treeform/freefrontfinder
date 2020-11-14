@@ -19,7 +19,7 @@ proc addFont(name, fontPostScriptName, style: string, weight: int, url, license:
       "license": license,
       "url": url
     }
-    entryCsv = &"{fontPostScriptName},{url},{license}\n"
+    entryCsv = &"{fontPostScriptName},{url},{license}"
   dbJson.add(entry)
   dbCsv.add(entryCsv)
   echo fontPostScriptName
@@ -73,4 +73,4 @@ addFont(
 
 writeFile("fonts.json", $dbJson)
 dbCsv.sort()
-writeFile("fonts.csv", dbCsv.join("\n")
+writeFile("fonts.csv", dbCsv.join("\n"))
