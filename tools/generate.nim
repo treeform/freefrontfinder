@@ -52,7 +52,8 @@ proc processDir(dir: string) =
             let
               repo = "github.com/google/fonts"
               folder = path.lastPathPart
-              url = &"https://{repo}/blob/master/ofl/{folder}/{fileName}?raw=true"
+              sub = path.parentDir.lastPathPart
+              url = &"https://{repo}/blob/master/{sub}/{folder}/{fileName}?raw=true"
             addFont(name, fontPostScriptName, style, weight, url, license)
 
 # Do google fonts
