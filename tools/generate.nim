@@ -1,4 +1,4 @@
-import os, json, strformat, strutils, algorithm, tables
+import os, json, strformat, strutils, algorithm, tables, urlly
 
 var dbJson = newJArray()
 var dbCsv: seq[string]
@@ -53,7 +53,7 @@ proc processDir(dir: string) =
               repo = "github.com/google/fonts"
               folder = path.lastPathPart
               sub = path.parentDir.lastPathPart
-              url = &"https://{repo}/blob/master/{sub}/{folder}/{fileName}?raw=true"
+              url = &"https://{repo}/blob/master/{sub}/{folder}/{encodeUrlComponent(fileName)}?raw=true"
             addFont(name, fontPostScriptName, style, weight, url, license)
 
 # Do google fonts
