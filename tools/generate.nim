@@ -11,6 +11,7 @@ proc valueInt(line: string): int =
   parseJson(line.split(":", 1)[1]).getInt()
 
 proc addFont(name, fontPostScriptName, style: string, weight: int, url, license: string) =
+  assert "," notin url
   let
     entry = %*{
       "name": name,
@@ -20,7 +21,7 @@ proc addFont(name, fontPostScriptName, style: string, weight: int, url, license:
       "license": license,
       "url": url
     }
-    entryCsv = &"{fontPostScriptName},\"{url}\",{license}"
+    entryCsv = &"{fontPostScriptName},{url},{license}"
   dbJson.add(entry)
   if fontPostScriptName notin dbCsvDup:
     dbCsv.add(entryCsv)
@@ -53,7 +54,8 @@ proc processDir(dir: string) =
               repo = "github.com/google/fonts"
               folder = path.lastPathPart
               sub = path.parentDir.lastPathPart
-              url = &"https://{repo}/blob/master/{sub}/{folder}/{encodeUrlComponent(fileName)}?raw=true"
+              file = encodeUrlComponent(fileName)
+              url = &"https://{repo}/blob/master/{sub}/{folder}/{file}?raw=true"
             addFont(name, fontPostScriptName, style, weight, url, license)
 
 # Do google fonts
