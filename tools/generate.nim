@@ -22,7 +22,7 @@ proc processDir(dir, license, baseUrl: string) =
   for file in  walkDirRec(dir):
     if file.endsWith(".ttf"):
       let (path, name, extension) = file.splitFile()
-      let path2 = path[dir.len + 1 .. ^1]
+      let path2 = path[dir.len + 1 .. ^1].replace("\\", "/")
       let name2 = encodeUrlComponent(name)
       addFont(
         name = name,
